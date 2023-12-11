@@ -29,7 +29,9 @@ class User(Base):
     last_login = Column(DateTime, nullable=True)
     is_temporary = Column(Boolean, default=False)
 
+    orders = relationship('Order', back_populates='user')
     addresses = relationship('UserAddress', back_populates='user')
+    basket = relationship('Basket', back_populates='user')
 
     def __str__(self):
         return self.email
