@@ -20,7 +20,7 @@ class OrderLineAdmin(ModelView, model=OrderLine):
     column_searchable_list = [OrderLine.order_id]
     form_columns = ['product', 'order', 'quantity', 'price']
     icon = "fa-thin fa-store"
-    category = 'Order Lines'
+    category = ADMIN_CATEGORY
 
 
 
