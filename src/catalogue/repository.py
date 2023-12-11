@@ -3,9 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.catalogue.models.pydantic import ProductModel
 from src.catalogue.models.sqlalchemy import Product
-from src.common.databases.postgres import (
-    get_session,
-)
+from src.common.databases.postgres import get_session
 from src.common.repository.sqlalchemy import BaseSQLAlchemyRepository
 
 

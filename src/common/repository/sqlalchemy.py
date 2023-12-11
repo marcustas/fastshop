@@ -32,14 +32,14 @@ class BaseSQLAlchemyRepository(Generic[T, PType]):
         instance = result.scalar_one_or_none()
         if not instance:
             raise ObjectDoesNotExistException()
-        return self.pydantic_model.from_orm(instance)
+        return self.pydantic_model.model_validate(instance)
 
     async def create(self, instance_data: PType) -> PType:
         instance = self.model(**instance_data.model_dump())
         self.session.add(instance)
         await self.session.commit()
         await self.session.refresh(instance)
-        return self.pydantic_model.from_orm(instance)
+        return self.pydantic_model.model_validate(instance)
 
     async def update(self, pk: int, update_data: PType) -> PType:
         await self.session.execute(
