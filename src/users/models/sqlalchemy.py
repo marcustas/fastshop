@@ -10,7 +10,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 
-from src.general.databases.postgres import Base
+from src.common.databases.postgres import Base
 
 
 class User(Base):
@@ -29,7 +29,9 @@ class User(Base):
     last_login = Column(DateTime, nullable=True)
     is_temporary = Column(Boolean, default=False)
 
+    orders = relationship('Order', back_populates='user')
     addresses = relationship('UserAddress', back_populates='user')
+    basket = relationship('Basket', back_populates='user')
 
     def __str__(self):
         return self.email

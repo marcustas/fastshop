@@ -6,7 +6,10 @@ from sqlalchemy import (
 )
 
 from alembic import context
-from src.general.databases.postgres import Base
+from src.catalogue.models import sqlalchemy
+from src.baskets.models import sqlalchemy
+from src.orders.models import sqlalchemy
+from src.company.models import sqlalchemy
 from src.users.models import sqlalchemy
 
 # this is the Alembic Config object, which provides
