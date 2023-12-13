@@ -24,8 +24,10 @@ class Order(Base):
     shipping_method = Column(String, nullable=True)
     additional_info = Column(String, nullable=True)
     created_at = Column(DateTime, server_default='now')
+    basket_id = Column(Integer, ForeignKey('baskets.id'))
 
     order_lines = relationship('OrderLine', back_populates='order')
+    basket = relationship("Basket", back_populates="orders")
 
     def __str__(self):
         return self.additional_info
