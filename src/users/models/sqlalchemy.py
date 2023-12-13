@@ -30,6 +30,8 @@ class User(Base):
     is_temporary = Column(Boolean, default=False)
 
     addresses = relationship('UserAddress', back_populates='user')
+    orders = relationship('Order', back_populates='user')
+    basket = relationship('Basket', back_populates='user')
 
     def __str__(self):
         return self.email
