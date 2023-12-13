@@ -30,6 +30,7 @@ class Product(Base):
     order_lines = relationship('OrderLine', back_populates='product')
     basket_lines = relationship('BasketLine', back_populates='product')
 
+
 class ProductCategory(Base):
     __tablename__ = 'product_categories'
 

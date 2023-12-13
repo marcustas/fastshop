@@ -20,8 +20,11 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: fastapi_shop
+    ports:
+      - "5433:5432"
     networks:
       - web_network
+
 
   redis:
     image: redis:latest

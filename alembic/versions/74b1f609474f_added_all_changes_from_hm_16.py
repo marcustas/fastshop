@@ -1,8 +1,8 @@
-"""creating orders and baskets
+"""added_all_changes_from_HM_16
 
-Revision ID: dde24eb91c1d
+Revision ID: 74b1f609474f
 Revises: cedcfebfb6ad
-Create Date: 2023-12-10 14:46:28.015927
+Create Date: 2023-12-13 18:26:40.800344
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'dde24eb91c1d'
+revision: str = '74b1f609474f'
 down_revision: Union[str, None] = 'cedcfebfb6ad'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
