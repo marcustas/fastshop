@@ -20,8 +20,11 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: fastapi_shop
+    ports:
+      - "5433:5432"
     networks:
       - web_network
+
 
   redis:
     image: redis:latest
@@ -37,6 +40,21 @@ services:
       - redis_data:/data
     networks:
       - web_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+      PGADMIN_LISTEN_PORT: 5050
+      PGADMIN_SERVER_PORT: 5432
+    ports:
+      - "5050:5050"
+    networks:
+      - web_network
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
