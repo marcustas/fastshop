@@ -10,13 +10,23 @@ from pydantic_settings import (
 )
 
 
+class MongoSettings(BaseModel):
+    """
+    Provide Mongo settings.
+    """
+
+    url: str = 'mongodb://localhost:27017/fastshop'
+    direct_connection: bool = False
+    const_status_prepared: str = 'prepared'
+
+
 class PostgresSettings(BaseModel):
     user: str = 'user'
     password: str = 'password'
     db: str = 'fastapi_shop'
     host: str = 'db'
     port: str = 5432
-    url: str = 'postgresql+asyncpg://user:password@host.docker.internal:5432/fastapi_shop'
+    url: str = 'postgresql+asyncpg://user:password@db:5432/fastapi_shop'
 
 
 class AuthorizationSettings(BaseModel):
@@ -32,6 +42,8 @@ class ProjectSettings(BaseSettings):
     api_logger_format: Optional[str] = '%(levelname)s: %(asctime)s - %(message)s'
 
     postgres: PostgresSettings = PostgresSettings()
+    mongo: MongoSettings = MongoSettings()
+
     auth: AuthorizationSettings
 
     model_config = SettingsConfigDict(

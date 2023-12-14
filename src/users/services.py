@@ -4,9 +4,7 @@ from fastapi import Depends
 
 from src.authentication.security import verify_password
 from src.common.service import BaseService
-from src.users.models.pydantic import (
-    UserModel,
-)
+from src.users.models.pydantic import UserModel
 from src.users.repository import (
     UserRepository,
     get_user_repository,

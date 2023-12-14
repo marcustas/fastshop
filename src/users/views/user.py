@@ -11,9 +11,7 @@ from fastapi import (
 
 from src.authentication.utils import get_current_user
 from src.common.schemas.common import ErrorResponse
-from src.users.models.pydantic import (
-    UserModel,
-)
+from src.users.models.pydantic import UserModel
 from src.users.routes import (
     UserManagementRoutesPrefixes,
     UserRoutesPrefixes,
