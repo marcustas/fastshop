@@ -32,7 +32,7 @@ class ProjectSettings(BaseSettings):
     api_logger_format: Optional[str] = '%(levelname)s: %(asctime)s - %(message)s'
 
     postgres: PostgresSettings = PostgresSettings()
-    auth: AuthorizationSettings
+    auth: Optional[AuthorizationSettings] = None
 
     model_config = SettingsConfigDict(
         env_nested_delimiter='__',

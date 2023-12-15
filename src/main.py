@@ -4,7 +4,8 @@ from sqladmin import Admin
 from src.admin import register_admin_views
 from src.authentication.views import router as auth_router
 from src.base_settings import base_settings
-from src.catalogue.views import product_router, category_router
+from src.catalogue.views.product import router as product_router
+from src.catalogue.views.category import router as category_router
 from src.common.databases.postgres import postgres
 from src.general.views import router as status_router
 from src.routes import BaseRoutesPrefixes
