@@ -5,6 +5,7 @@ from src.admin import register_admin_views
 from src.authentication.views import router as auth_router
 from src.base_settings import base_settings
 from src.catalogue.views import product_router
+from src.catalogue.views.category import category_router
 from src.common.databases.postgres import postgres
 from src.general.views import router as status_router
 from src.routes import BaseRoutesPrefixes
@@ -29,6 +30,11 @@ def include_routes(application: FastAPI) -> None:
         router=user_router,
         prefix=BaseRoutesPrefixes.account,
         tags=['Account'],
+    )
+    application.include_router(
+        router=category_router,
+        prefix=BaseRoutesPrefixes.catalogue,
+        tags=['Catalogue']
     )
 
 
