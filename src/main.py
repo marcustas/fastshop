@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from sqladmin import Admin
 
@@ -5,10 +7,20 @@ from src.admin import register_admin_views
 from src.authentication.views import router as auth_router
 from src.base_settings import base_settings
 from src.catalogue.views import product_router
-from src.common.databases.postgres import postgres
+from src.common.databases.postgres import (
+    engine,
+    init_db,
+)
 from src.general.views import router as status_router
 from src.routes import BaseRoutesPrefixes
 from src.users.views import user_router
+
+
+@asynccontextmanager
+async def lifespan(application: FastAPI):  # noqa: ARG001
+    await init_db()
+
+    yield
 
 
 def include_routes(application: FastAPI) -> None:
@@ -40,16 +52,8 @@ def get_application() -> FastAPI:
         openapi_url=BaseRoutesPrefixes.openapi if base_settings.debug else None,
     )
 
-    @application.on_event('startup')
-    def startup():
-        postgres.connect(base_settings.postgres.url)
-        engine = postgres.get_engine()
-        admin = Admin(app=application, engine=engine)
-        register_admin_views(admin)
-
-    @application.on_event('shutdown')
-    async def shutdown():
-        await postgres.disconnect()
+    admin = Admin(app=application, engine=engine)
+    register_admin_views(admin)
 
     include_routes(application)
 
