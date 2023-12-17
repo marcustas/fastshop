@@ -49,7 +49,7 @@ def get_application() -> FastAPI:
     )
 
     @application.on_event('startup')
-    def startup():
+    async def startup():
         postgres.connect(base_settings.postgres.url)
         engine = postgres.get_engine()
         admin = Admin(app=application, engine=engine)
