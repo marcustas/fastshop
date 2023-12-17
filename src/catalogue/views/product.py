@@ -13,12 +13,12 @@ from fastapi import (
 from src.catalogue.models.pydantic import ProductModel
 from src.catalogue.routes import (
     CatalogueRoutesPrefixes,
-    ProductRoutesPrefixes,
+    ProductRoutesPrefixes, CategoryRoutesPrefixes,
 )
 from src.catalogue.services import get_product_service
+
 from src.common.exceptions.base import ObjectDoesNotExistException
 from src.common.schemas.common import ErrorResponse
-
 
 router = APIRouter(prefix=CatalogueRoutesPrefixes.product)
 
@@ -28,7 +28,8 @@ router = APIRouter(prefix=CatalogueRoutesPrefixes.product)
     status_code=status.HTTP_200_OK,
     response_model=list[ProductModel],
 )
-async def product_list(product_service: Annotated[get_product_service, Depends()]) -> list[ProductModel]:
+# async def product_list(product_service: Annotated[get_product_service, Depends()]) -> list[ProductModel]:
+async def product_list(product_service=Depends(get_product_service)) -> list[ProductModel]:
     """
     Get list of products.
 
@@ -48,9 +49,9 @@ async def product_list(product_service: Annotated[get_product_service, Depends()
     response_model=Union[ProductModel, ErrorResponse],
 )
 async def product_detail(
-    response: Response,
-    pk: int,
-    service: Annotated[get_product_service, Depends()],
+        response: Response,
+        pk: int,
+        service: Annotated[get_product_service, Depends()],
 ) -> Union[Response, ErrorResponse]:
     """
     Retrieve product.
