@@ -1,4 +1,3 @@
-from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from sqladmin import Admin
@@ -13,12 +12,6 @@ from src.general.views import router as status_router
 from src.reviews.views import product_reviews_router
 from src.routes import BaseRoutesPrefixes
 from src.users.views import user_router
-
-
-@asynccontextmanager
-async def lifespan(application: FastAPI):  # noqa: ARG001
-    await init_mongo_db()
-    yield
 
 
 def include_routes(application: FastAPI) -> None:
@@ -53,7 +46,6 @@ def get_application() -> FastAPI:
         docs_url=BaseRoutesPrefixes.swagger if base_settings.debug else None,
         redoc_url=BaseRoutesPrefixes.redoc if base_settings.debug else None,
         openapi_url=BaseRoutesPrefixes.openapi if base_settings.debug else None,
-        lifespan=lifespan,
     )
 
     @application.on_event('startup')
@@ -62,6 +54,8 @@ def get_application() -> FastAPI:
         engine = postgres.get_engine()
         admin = Admin(app=application, engine=engine)
         register_admin_views(admin)
+
+        await init_mongo_db()
 
     @application.on_event('shutdown')
     async def shutdown():
