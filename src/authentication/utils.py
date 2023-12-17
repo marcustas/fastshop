@@ -15,9 +15,7 @@ from jose import (
 
 from src.base_settings import base_settings
 from src.users.models.pydantic import UserModel
-from src.users.services import (
-    get_user_service,
-)
+from src.users.services import get_user_service
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
