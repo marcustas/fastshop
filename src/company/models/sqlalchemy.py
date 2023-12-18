@@ -10,6 +10,7 @@ from sqlalchemy import (
 )
 
 from src.general.databases.postgres import Base
+# src not found
 from sqlalchemy.orm import relationship
 
 
