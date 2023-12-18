@@ -50,6 +50,7 @@ def get_application() -> FastAPI:
         docs_url=BaseRoutesPrefixes.swagger if base_settings.debug else None,
         redoc_url=BaseRoutesPrefixes.redoc if base_settings.debug else None,
         openapi_url=BaseRoutesPrefixes.openapi if base_settings.debug else None,
+        lifespan=lifespan,
     )
 
     admin = Admin(app=application, engine=engine)
