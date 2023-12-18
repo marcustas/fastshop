@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from sqladmin import Admin
 
-from src.admin import register_admin_views
-from src.base_settings import base_settings
-from src.general.databases.postgres import postgres
-from src.general.views import router as status_router
-from src.routes import BaseRoutesPrefixes
+from admin.admin_views import register_admin_views
+
+from base_settings import base_settings
+from general.databases.postgres import postgres
+from general.views import router as status_router
+from routes import BaseRoutesPrefixes
 
 
 def include_routes(application: FastAPI) -> None:
