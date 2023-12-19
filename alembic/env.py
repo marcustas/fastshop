@@ -8,7 +8,8 @@ from sqlalchemy import (
 from alembic import context
 from src.general.databases.postgres import Base
 from src.users.models import sqlalchemy
-
+from src.orders.models import sqlalchemy
+from src.baskets.models import sqlalchemy
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
