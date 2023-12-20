@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import Depends
 
@@ -10,7 +10,10 @@ from src.users.models.pydantic import (
 from src.users.repository import (
     UserRepository,
     get_user_repository,
+    UserAddressRepository,
 )
+
+from users.models.sqlalchemy import UserAddress
 
 
 class UserService(BaseService[UserModel]):
@@ -31,3 +34,18 @@ class UserService(BaseService[UserModel]):
 
 def get_user_service(repo: UserRepository = Depends(get_user_repository)) -> UserService:
     return UserService(repository=repo)
+
+
+class UserAddressService(BaseService[UserAddress, UserAddress]):
+    def __init__(self, repository: UserRepository):
+        super().__init__(repository)
+
+    async def get_user_address_by_id(self, address_id: int, user_id: int) -> UserAddress:
+        return await self.repository.get_user_address_by_id(address_id, user_id)
+
+    async def get_user_addresses(self, user_id: int) -> List[UserAddress]:
+        return await self.repository.get_user_addresses(user_id=user_id)
+
+
+def get_user_address_service(repo: UserAddressRepository = Depends(UserAddressRepository)) -> UserAddressService:
+    return UserAddressService(repository=repo)
