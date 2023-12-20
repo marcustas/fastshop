@@ -8,8 +8,8 @@ from sqlmodel import (
     Field,
     Relationship,
     SQLModel,
+    ForeignKey,
 )
-
 
 class Product(SQLModel, table=True):
     __tablename__ = 'products'
@@ -24,6 +24,22 @@ class Product(SQLModel, table=True):
     images: List["ProductImage"] = Relationship(back_populates="product")
     stock_records: List["StockRecord"] = Relationship(back_populates="product")
     discounts: List["ProductDiscount"] = Relationship(back_populates="product")
+
+    additional_products: List["AdditionalProducts"] = Relationship(back_populates="product")
+    recommended_products: List["RecommendedProducts"] = Relationship(back_populates="product")
+
+class AdditionalProducts(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    additional_id: int = Field(foreign_key="products.id")
+
+    product: Optional["Product"] = Relationship(back_populates="additional_products")
+
+
+class RecommendedProducts(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    recommended_id: int = Field(foreign_key="products.id")
+
+    product: Optional["Product"] = Relationship(back_populates="recommended_products")
 
 
 class ProductCategory(SQLModel, table=True):
