@@ -15,3 +15,14 @@ class ProductModel(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class CategoryModel(BaseModel):
+    name: str
+
+
+class Category(CategoryModel):
+    id: int
+
+    class Config:
+        orm_mode = True
