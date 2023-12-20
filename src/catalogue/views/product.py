@@ -15,6 +15,7 @@ from src.catalogue.routes import (
     CatalogueRoutesPrefixes,
     ProductRoutesPrefixes,
 )
+from src.catalogue.service_mongo import ProductAnalyticsService
 from src.catalogue.services import get_product_service
 from src.common.exceptions.base import ObjectDoesNotExistException
 from src.common.schemas.common import ErrorResponse
@@ -45,12 +46,13 @@ async def product_list(product_service: Annotated[get_product_service, Depends()
         status.HTTP_404_NOT_FOUND: {'model': ErrorResponse},
     },
     status_code=status.HTTP_200_OK,
-    response_model=Union[ProductModel, ErrorResponse],
+    response_model=None
 )
 async def product_detail(
     response: Response,
     pk: int,
     service: Annotated[get_product_service, Depends()],
+    analytics_service: ProductAnalyticsService = Depends(),
 ) -> Union[Response, ErrorResponse]:
     """
     Retrieve product.
@@ -60,6 +62,8 @@ async def product_detail(
     """
     try:
         response = await service.detail(pk=pk)
+        await analytics_service.record_product_visit(product_id=pk)
+
     except ObjectDoesNotExistException as exc:
         response.status_code = status.HTTP_404_NOT_FOUND
         return ErrorResponse(message=exc.message)
