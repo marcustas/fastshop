@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from sqladmin import Admin
@@ -13,6 +14,10 @@ from src.reviews.views import product_reviews_router
 from src.routes import BaseRoutesPrefixes
 from src.users.views import user_router
 
+@asynccontextmanager
+async def lifespan(application: FastAPI):
+    await init_mongo_db()
+    yield
 
 def include_routes(application: FastAPI) -> None:
     application.include_router(
@@ -46,6 +51,7 @@ def get_application() -> FastAPI:
         docs_url=BaseRoutesPrefixes.swagger if base_settings.debug else None,
         redoc_url=BaseRoutesPrefixes.redoc if base_settings.debug else None,
         openapi_url=BaseRoutesPrefixes.openapi if base_settings.debug else None,
+        lifespan=lifespan
     )
 
     @application.on_event('startup')

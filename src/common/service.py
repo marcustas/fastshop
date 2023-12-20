@@ -35,5 +35,5 @@ class WriteMixin:
 
 
 class BaseService(ReadMixin, WriteMixin, Generic[PType]):
-    def __init__(self, repository: Union[BaseSQLAlchemyRepository[T, PType], BaseMongoRepository]):
+    def __init__(self, repository: Union[BaseMongoRepository, BaseSQLAlchemyRepository[T, PType]]):
         self.repository = repository
