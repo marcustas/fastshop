@@ -17,7 +17,7 @@ class PostgresSettings(BaseModel):
 
 
 class ProjectSettings(BaseSettings):
-    api_key: str
+    api_key: Optional[str] = None
     debug: Optional[bool] = True
     api_logger_format: Optional[str] = '%(levelname)s: %(asctime)s - %(message)s'
 
