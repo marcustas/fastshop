@@ -1,6 +1,7 @@
 from typing import (
     Annotated,
     Union,
+    List,
 )
 
 from fastapi import (
@@ -10,58 +11,63 @@ from fastapi import (
     status,
 )
 
-from src.catalogue.models.pydantic import ProductModel
-from src.catalogue.routes import (
-    CatalogueRoutesPrefixes,
-    ProductRoutesPrefixes,
+from src.users.models.pydantic import(
+    UserAddressDetailModel,
+    UserAddressModel,
 )
-from src.catalogue.services import get_product_service
-from src.common.exceptions.base import ObjectDoesNotExistException
+from src.users.routes import (
+    UserManagementRoutesPrefixes,
+    UserRoutesPrefixes,
+    UserAddressRoutesPrefixes,
+)
+from src.users.services import get_user_address_service
+from src.authentication.utils import get_current_user
 from src.common.schemas.common import ErrorResponse
 
 
-router = APIRouter(prefix=CatalogueRoutesPrefixes.product)
+router = APIRouter(prefix=UserManagementRoutesPrefixes.user_address)
 
 
 @router.get(
-    ProductRoutesPrefixes.root,
+    UserRoutesPrefixes.root,
     status_code=status.HTTP_200_OK,
-    response_model=list[ProductModel],
+    response_model=list[UserAddressModel],
 )
-async def product_list(product_service: Annotated[get_product_service, Depends()]) -> list[ProductModel]:
+async def user_address_list(
+        current_user: Annotated[UserAddressModel, Depends(get_current_user)],
+        user_address_service=Depends(get_user_address_service)) -> List[UserAddressModel]:
     """
-    Get list of products.
-
+    Get list of user addresses.
     Returns:
-        Response with list of products.
+        Response with list of user addresses.
     """
-    return await product_service.list()
+    return await user_address_service.get_user_addresses(user_id=current_user.id)
 
 
 @router.get(
-    ProductRoutesPrefixes.detail,
+    UserAddressRoutesPrefixes.detail,
     responses={
-        status.HTTP_200_OK: {'model': ProductModel},
+        status.HTTP_200_OK: {'model': UserAddressDetailModel},
         status.HTTP_404_NOT_FOUND: {'model': ErrorResponse},
     },
     status_code=status.HTTP_200_OK,
-    response_model=Union[ProductModel, ErrorResponse],
+    response_model=Union[UserAddressDetailModel, ErrorResponse],
 )
-async def product_detail(
+async def user_address_detail(
     response: Response,
     pk: int,
-    service: Annotated[get_product_service, Depends()],
-) -> Union[Response, ErrorResponse]:
+    current_user: Annotated[UserAddressDetailModel, Depends(get_current_user)],
+    user_address_service=Depends(get_user_address_service)
+) -> Union[UserAddressDetailModel, ErrorResponse, Response]:
     """
-    Retrieve product.
-
+    Retrieve user address.
     Returns:
-        Response with product details.
+        Response with user address details.
     """
-    try:
-        response = await service.detail(pk=pk)
-    except ObjectDoesNotExistException as exc:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return ErrorResponse(message=exc.message)
+    result = await user_address_service.get_address_detail(address_id=pk, user_id=current_user.id)
 
-    return response
+    if result is None:
+        response.status_code = status.HTTP_403_FORBIDDEN
+        return ErrorResponse(message='Sorry, it is not your address!')
+
+    return result
