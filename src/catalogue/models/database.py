@@ -28,6 +28,7 @@ class Product(SQLModel, table=True):
     additional_products: List["AdditionalProducts"] = Relationship(back_populates="product")
     recommended_products: List["RecommendedProducts"] = Relationship(back_populates="product")
 
+
 class AdditionalProducts(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     additional_id: int = Field(foreign_key="products.id")

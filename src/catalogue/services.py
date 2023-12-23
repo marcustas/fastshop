@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from src.catalogue.models.database import Product, AdditionalProducts, RecommendedProducts
+from src.catalogue.models.database import Product, RecommendedProducts, AdditionalProducts
 from src.catalogue.repository import (
     ProductRepository,
     get_product_repository,
