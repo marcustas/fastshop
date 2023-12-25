@@ -16,7 +16,7 @@ class PostgresSettings(BaseModel):
     db: str = 'fastapi_shop'
     host: str = 'db'
     port: str = 5432
-    url: str = 'postgresql+asyncpg://user:password@host.docker.internal:5432/fastapi_shop'
+    url: str = 'postgresql+asyncpg://user:password@db:5432/fastapi_shop'
 
 
 class AuthorizationSettings(BaseModel):
@@ -27,12 +27,12 @@ class AuthorizationSettings(BaseModel):
 
 
 class ProjectSettings(BaseSettings):
-    api_key: str
+    api_key: Optional[str] = None
     debug: Optional[bool] = True
     api_logger_format: Optional[str] = '%(levelname)s: %(asctime)s - %(message)s'
 
     postgres: PostgresSettings = PostgresSettings()
-    auth: AuthorizationSettings
+    auth: Optional[AuthorizationSettings] = None
 
     model_config = SettingsConfigDict(
         env_nested_delimiter='__',
