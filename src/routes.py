@@ -1,4 +1,14 @@
-class BaseRoutesPrefixes:
-    swagger: str = '/docs'
-    redoc: str = '/redoc'
-    openapi: str = '/openapi.json'
+from src.common.routes import BaseCrudPrefixes
+
+
+class CatalogueRoutesPrefixes:
+    product: str = '/product'
+    category: str = '/category'
+
+
+class ProductRoutesPrefixes(BaseCrudPrefixes):
+    ...
+
+
+class CategoryRoutesPrefixes(BaseCrudPrefixes):
+    ...
