@@ -7,3 +7,5 @@ class BaseRoutesPrefixes:
     authentication: str = '/auth'
     account: str = '/account'
     reviews: str = '/reviews'
+    products: str = '/products'
+    product_detail: str = '/product_detail'

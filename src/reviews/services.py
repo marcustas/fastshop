@@ -7,8 +7,10 @@ from src.common.service import BaseService
 from src.reviews.models.mongo import (
     ProductReview,
     Reply,
+    ProductAnalytics,
 )
-from src.reviews.repositories import ProductReviewRepository
+from src.reviews.repositories import ProductReviewRepository, ProductAnalyticsRepository
+from datetime import datetime
 
 
 class ProductReviewService(BaseService):
@@ -44,3 +46,19 @@ class ProductReviewService(BaseService):
         review.replies.append(reply.model_dump())
 
         return await review.save()
+
+
+class ProductAnalyticsService(BaseService):
+    def __init__(
+        self,
+        repository: Annotated[ProductAnalyticsRepository, Depends(ProductAnalyticsRepository)],
+    ):
+        super().__init__(repository)
+
+    async def record_product_visit(self, product_id: int):
+        timestamp = datetime.utcnow()
+        entry = ProductAnalytics(product_id=product_id, timestamp=timestamp)
+        if hasattr(self.repository, "create_analytics_entry"):
+            await self.repository.create_analytics_entry(entry)
+        else:
+            raise NotImplementedError("not implemented yet")

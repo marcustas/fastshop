@@ -5,7 +5,7 @@ from sqladmin import Admin
 from src.admin import register_admin_views
 from src.authentication.views import router as auth_router
 from src.base_settings import base_settings
-from src.catalogue.views import product_router
+from src.catalogue.views import product_router, product_detail_router
 from src.common.databases.mongo_db import init_mongo_db
 from src.common.databases.postgres import postgres
 from src.general.views import router as status_router
@@ -27,6 +27,11 @@ def include_routes(application: FastAPI) -> None:
         router=product_router,
         prefix=BaseRoutesPrefixes.catalogue,
         tags=['Catalogue'],
+    )
+    application.include_router(
+        router=product_detail_router,
+        prefix=BaseRoutesPrefixes.product_detail,
+        tags=['ProductDetail'],
     )
     application.include_router(
         router=user_router,
