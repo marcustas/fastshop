@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import Optional
 
 from beanie import Document
@@ -28,3 +29,13 @@ class ProductReview(Document, BaseProductReview):
 
     class Settings:
         name = 'productReviews'
+
+
+class BaseProductAnalytics(BaseModel):
+    product_id: int
+    timestamp: datetime
+
+
+class ProductAnalytics(Document, BaseProductAnalytics):
+    class Settings:
+        collection = "productAnalytics"

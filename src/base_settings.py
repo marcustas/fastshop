@@ -15,7 +15,7 @@ class MongoSettings(BaseModel):
     Provide Mongo settings.
     """
 
-    url: str = 'mongodb://localhost:27017/fastshop'
+    url: str = 'mongodb://fastshop-mongo-db:27017/fastshop'
     direct_connection: bool = False
     const_status_prepared: str = 'prepared'
 
@@ -37,7 +37,7 @@ class AuthorizationSettings(BaseModel):
 
 
 class ProjectSettings(BaseSettings):
-    api_key: str
+    api_key: Optional[str] = None
     debug: Optional[bool] = True
     api_logger_format: Optional[str] = '%(levelname)s: %(asctime)s - %(message)s'
 
