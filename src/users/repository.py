@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import Depends
 from sqlalchemy.exc import (
@@ -53,6 +53,22 @@ class UserAddressRepository(BaseSQLAlchemyRepository[UserAddress]):
 
     async def delete(self, *args, **kwargs):
         raise NotImplementedError
+
+
+    async def get_user_addresses(self, user_id: int) -> List[UserAddress]:
+        stmt = select(self.model).filter_by(user_id=user_id)
+        result_obj = await self.session.execute(stmt)
+        result = result_obj.scalars().all()
+        return [self.pydantic_model.model_validate(instance) for instance in result]
+
+    async def get_address_detail(self, address_id: int, user_id: int) -> Optional[UserAddress]:
+        stmt = select(self.model).filter_by(id=address_id, user_id=user_id)
+        result = await self.session.execute(stmt)
+        user = result.scalar_one_or_none()
+        if not user:
+            return None
+
+        return UserAddress.model_validate(user)
 
 def get_adress_user_repository(session: AsyncSession = Depends(get_session)) -> UserAddressRepository:
     return UserAddressRepository(session=session)
