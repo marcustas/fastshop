@@ -11,55 +11,55 @@ from fastapi import (
     status,
 )
 
-from src.catalogue.models.database import Product
+from src.catalogue.models.database import Category
 from src.catalogue.routes import (
     CatalogueRoutesPrefixes,
-    ProductRoutesPrefixes
+    CategoryRoutesPrefixes
 )
-from src.catalogue.services import get_product_service
+from src.catalogue.services import get_category_service
 from src.common.enums import TaskStatus
 from src.common.exceptions.base import ObjectDoesNotExistException
 from src.common.schemas.common import ErrorResponse
 from src.general.schemas.task_status import TaskStatusModel
 
 
-router = APIRouter(prefix=CatalogueRoutesPrefixes.product)
+router = APIRouter(prefix=CatalogueRoutesPrefixes.category)
 
 
 @router.get(
-    ProductRoutesPrefixes.root,
+    CategoryRoutesPrefixes.root,
     status_code=status.HTTP_200_OK,
-    response_model=list[Product],
+    response_model=list[Category],
 )
-async def product_list(product_service: Annotated[get_product_service, Depends()]) -> list[Product]:
+async def category_list(category_service: Annotated[get_category_service, Depends()]) -> list[Category]:
     """
-    Get list of products.
+    Get list of category.
 
     Returns:
-        Response with list of products.
+        Response with list of category.
     """
-    return await product_service.list()
+    return await category_service.list()
 
 
 @router.get(
-    ProductRoutesPrefixes.detail,
+    CategoryRoutesPrefixes.detail,
     responses={
-        status.HTTP_200_OK: {'model': Product},
+        status.HTTP_200_OK: {'model': Category},
         status.HTTP_404_NOT_FOUND: {'model': ErrorResponse},
     },
     status_code=status.HTTP_200_OK,
-    response_model=Union[Product, ErrorResponse],
+    response_model=Union[Category, ErrorResponse],
 )
-async def product_detail(
+async def category_detail(
     response: Response,
     pk: int,
-    service: Annotated[get_product_service, Depends()],
+    service: Annotated[get_category_service, Depends()],
 ) -> Union[Response, ErrorResponse]:
     """
-    Retrieve product.
+    Retrieve category.
 
     Returns:
-        Response with product details.
+        Response with category details.
     """
     try:
         response = await service.detail(pk=pk)
@@ -71,18 +71,17 @@ async def product_detail(
 
 
 @router.get(
-    ProductRoutesPrefixes.search,
+    CategoryRoutesPrefixes.search,
     status_code=status.HTTP_200_OK,
 )
-async def search(
+async def search_category(
     keyword: str,
-    service: Annotated[get_product_service, Depends()],
+    service: Annotated[get_category_service, Depends()],
 ):
     """
-    Search products.
-
+    Search categories.
     Returns:
-        Response with products.
+        Response with categories.
     """
     response = await service.search(keyword=keyword)
 
@@ -90,16 +89,15 @@ async def search(
 
 
 @router.post(
-    ProductRoutesPrefixes.update_index,
+    CategoryRoutesPrefixes.update_index,
     status_code=status.HTTP_200_OK,
 )
 async def update_elastic(
     background_tasks: BackgroundTasks,
-    service: Annotated[get_product_service, Depends()],
+    service: Annotated[get_category_service, Depends()],
 ):
     """
-    Update products index.
-
+    Update category index.
     Returns:
         None.
     """
