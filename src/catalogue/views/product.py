@@ -16,6 +16,8 @@ from src.catalogue.routes import (
     ProductRoutesPrefixes,
 )
 from src.catalogue.services import get_product_service
+from src.reviews.services import ProductAnalyticsService
+from src.reviews.repositories import ProductAnalyticsRepository
 from src.common.exceptions.base import ObjectDoesNotExistException
 from src.common.schemas.common import ErrorResponse
 
@@ -60,6 +62,8 @@ async def product_detail(
     """
     try:
         response = await service.detail(pk=pk)
+        product_analytics_service = ProductAnalyticsService(repository=ProductAnalyticsRepository)
+        await product_analytics_service.add_visiting_notes(product_id=pk)
     except ObjectDoesNotExistException as exc:
         response.status_code = status.HTTP_404_NOT_FOUND
         return ErrorResponse(message=exc.message)
