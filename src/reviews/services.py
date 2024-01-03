@@ -1,5 +1,5 @@
 from typing import Annotated
-
+from datetime import datetime
 from fastapi import Depends
 
 from src.common.exceptions.base import ObjectDoesNotExistException
@@ -7,8 +7,9 @@ from src.common.service import BaseService
 from src.reviews.models.mongo import (
     ProductReview,
     Reply,
+    BaseProductAnalytics,
 )
-from src.reviews.repositories import ProductReviewRepository
+from src.reviews.repositories import ProductReviewRepository, ProductAnalyticsRepository
 
 
 class ProductReviewService(BaseService):
@@ -44,3 +45,16 @@ class ProductReviewService(BaseService):
         review.replies.append(reply.model_dump())
 
         return await review.save()
+
+class ProductAnalyticsService(BaseService):
+    def __init__(
+            self,
+            repository: Annotated[ProductAnalyticsRepository, Depends(ProductAnalyticsRepository)],
+    ):
+        super().__init__(repository=repository)
+
+    async def record_product_visit(self, product_id: int):
+        timestamp = datetime.utcnow()
+        product_analytics_data = BaseProductAnalytics(product_id=product_id, timestamp=timestamp)
+
+        await self.repository.create(product_analytics_data)
