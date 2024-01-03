@@ -1,6 +1,6 @@
 import uuid
 from typing import Optional
-
+from datetime import datetime
 from beanie import Document
 from pydantic import (
     BaseModel,
@@ -28,3 +28,12 @@ class ProductReview(Document, BaseProductReview):
 
     class Settings:
         name = 'productReviews'
+
+class BaseProductAnalytics(BaseModel):
+    product_id: int
+    timestamp: datetime
+
+
+class ProductAnalytics(Document, BaseProductAnalytics):
+    class Settings:
+        collection = "productAnalytics"
