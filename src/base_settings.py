@@ -37,14 +37,14 @@ class AuthorizationSettings(BaseModel):
 
 
 class ProjectSettings(BaseSettings):
-    api_key: str
+    api_key: Optional[str] = None
     debug: Optional[bool] = True
     api_logger_format: Optional[str] = '%(levelname)s: %(asctime)s - %(message)s'
 
     postgres: PostgresSettings = PostgresSettings()
     mongo: MongoSettings = MongoSettings()
 
-    auth: AuthorizationSettings
+    auth: Optional[AuthorizationSettings] = None
 
     model_config = SettingsConfigDict(
         env_nested_delimiter='__',
