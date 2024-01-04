@@ -9,7 +9,8 @@ from sqlmodel import SQLModel
 
 from alembic import context
 
-from src.catalogue.models.database import Product, ProductCategory, ProductDiscount, ProductImage, Category, StockRecord
+from src.catalogue.models.database import (Product, ProductCategory, ProductDiscount, ProductImage, Category,
+                                           StockRecord, RecommendedProducts, AdditionalProducts)
 from src.users.models.database import User, UserAddress
 from src.company.models.database import Company
 
