@@ -7,7 +7,7 @@ from src.admin import register_admin_views
 from src.authentication.views import router as auth_router
 from src.base_settings import base_settings
 from src.catalogue.utils import ProductElasticManager
-from src.catalogue.views import product_router
+from src.catalogue.views import product_router, category_router
 from src.common.databases.postgres import (
     engine,
     init_db,
@@ -36,6 +36,11 @@ def include_routes(application: FastAPI) -> None:
     )
     application.include_router(
         router=product_router,
+        prefix=BaseRoutesPrefixes.catalogue,
+        tags=['Catalogue'],
+    )
+    application.include_router(
+        router=category_router,
         prefix=BaseRoutesPrefixes.catalogue,
         tags=['Catalogue'],
     )
