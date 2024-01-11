@@ -49,7 +49,7 @@ class BaseSQLAlchemyRepository(Generic[T]):
         self.session.add(instance)
         await self.session.commit()
         await self.session.refresh(instance)
-        return self.model.model_validate(instance)
+        return instance
 
     async def update(self, pk: int, update_data: PType) -> PType:
         await self.session.exec(

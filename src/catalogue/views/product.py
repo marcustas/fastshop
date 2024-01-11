@@ -12,6 +12,7 @@ from fastapi import (
 )
 
 from src.catalogue.models.database import Product
+from src.catalogue.models.pydantic import ProductCreate
 from src.catalogue.routes import (
     CatalogueRoutesPrefixes,
     ProductRoutesPrefixes,
@@ -108,3 +109,25 @@ async def update_elastic(
     background_tasks.add_task(service.update_search_index, status_model.uuid)
 
     return await TaskStatusModel().get_from_redis(uuid=status_model.uuid)
+
+
+@router.post(
+    ProductRoutesPrefixes.root,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_product(
+    product_data: ProductCreate,
+    service: Annotated[get_product_service, Depends()],
+):
+    """
+    Create a new product.
+
+    Args:
+        product_data: The data of the product to be created.
+        service: Product service.
+
+    Returns:
+        The created product.
+    """
+    created_product = await service.create(instance_data=product_data)
+    return created_product
