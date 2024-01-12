@@ -1,5 +1,9 @@
 from sqladmin import ModelView
-from src.order.models.sqlalchemy import Order, OrderLine
+
+from src.order.models.sqlalchemy import (
+    Order,
+    OrderLine,
+)
 
 ADMIN_CATEGORY = 'Order'
 

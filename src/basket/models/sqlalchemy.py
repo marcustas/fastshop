@@ -1,5 +1,12 @@
-from sqlalchemy import Column, Integer, ForeignKey, Enum, DECIMAL
+from sqlalchemy import (
+    DECIMAL,
+    Column,
+    Enum,
+    ForeignKey,
+    Integer,
+)
 from sqlalchemy.orm import relationship
+
 from src.general.databases.postgres import Base
 
 

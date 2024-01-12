@@ -1,9 +1,16 @@
-from sqlalchemy import (Column, Integer, String,
-                        ForeignKey, Enum, DECIMAL,
-                        DateTime)
-from src.general.databases.postgres import Base
-from sqlalchemy.sql import func
+from sqlalchemy import (
+    DECIMAL,
+    Column,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Integer,
+    String,
+)
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+
+from src.general.databases.postgres import Base
 
 
 class Order(Base):

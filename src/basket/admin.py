@@ -1,5 +1,9 @@
 from sqladmin import ModelView
-from src.basket.models.sqlalchemy import Basket, BasketLine
+
+from src.basket.models.sqlalchemy import (
+    Basket,
+    BasketLine,
+)
 
 ADMIN_CATEGORY = 'Basket'
 
