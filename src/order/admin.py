@@ -5,22 +5,26 @@ from src.order.models.sqlalchemy import (
     OrderLine,
 )
 
-ADMIN_CATEGORY = 'Order'
+ADMIN_CATEGORY = "Order"
 
 
 class OrderAdmin(ModelView, model=Order):
     column_list = [Order.id, Order.total_price, Order.status, Order.created_at]
     column_searchable_list = [Order.user_id, Order.status]
-    icon = 'fa-solid fa-shop'
+    icon = "fa-solid fa-shop"
     category = ADMIN_CATEGORY
 
 
 class OrderLineAdmin(ModelView):
-    column_list = [OrderLine.id, OrderLine.product_id,
-                   OrderLine.Order_id, OrderLine.quantity, OrderLine.price]
-    column_searchable_list = [OrderLine.id, OrderLine.product_id,
-                              OrderLine.Order_id]
-    icon = 'fa-solid fa-list-check'
+    column_list = [
+        OrderLine.id,
+        OrderLine.product_id,
+        OrderLine.Order_id,
+        OrderLine.quantity,
+        OrderLine.price,
+    ]
+    column_searchable_list = [OrderLine.id, OrderLine.product_id, OrderLine.Order_id]
+    icon = "fa-solid fa-list-check"
     category = ADMIN_CATEGORY
 
 
