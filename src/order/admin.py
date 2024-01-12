@@ -20,6 +20,6 @@ class OrderLineAdmin(ModelView):
     category = ADMIN_CATEGORY
 
 
-def register_hr_admin_views(admin):
+def register_orders_admin_views(admin):
     admin.add_view(OrderAdmin)
     admin.add_view(OrderLineAdmin)

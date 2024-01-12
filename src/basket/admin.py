@@ -20,6 +20,6 @@ class BasketLineAdmin(ModelView):
     category = ADMIN_CATEGORY
 
 
-def register_hr_admin_views(admin):
+def register_basket_admin_views(admin):
     admin.add_view(BasketAdmin)
     admin.add_view(BasketLineAdmin)
