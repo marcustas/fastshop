@@ -12,7 +12,7 @@ class Basket(Base):
     status = Column(Enum('Open', 'Closed', 'Cancelled'))
 
     # Assuming there is a User table with an 'id' column
-    user = relationship("User", back_populates="baskets")
+    user = relationship("User", back_populates="basket")
 
 
 class BasketLine(Base):
@@ -24,4 +24,4 @@ class BasketLine(Base):
     quantity = Column(Integer)
     price = Column(DECIMAL(precision=10, scale=2))
 
-    product = relationship("Product", backref="baskets")
+    product = relationship("Product", backref="basket_line")
