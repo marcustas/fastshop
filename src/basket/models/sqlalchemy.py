@@ -23,3 +23,5 @@ class BasketLine(Base):
     basket_id = Column(Integer, ForeignKey("basket"))
     quantity = Column(Integer)
     price = Column(DECIMAL(precision=10, scale=2))
+
+    product = relationship("Product", backref="baskets")

@@ -3,6 +3,7 @@ from sqlalchemy import (Column, Integer, String,
                         DateTime)
 from src.general.databases.postgres import Base
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 
 class Order(Base):
@@ -21,6 +22,8 @@ class Order(Base):
     additional_info = Column(String, nullable=True)
     created_at = Column(DateTime, default=func.now())
 
+    basket = relationship("Basket", backref="orders")
+
 
 class OrderLine(Base):
     __tablename__ = 'order_lines'
@@ -30,3 +33,5 @@ class OrderLine(Base):
     order_id = Column(Integer, ForeignKey('order.id'))
     quantity = Column(Integer)
     price = Column(DECIMAL)
+
+    order = relationship("Order", backref="order_lines")
