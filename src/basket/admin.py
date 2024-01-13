@@ -15,7 +15,7 @@ class BasketAdmin(ModelView, model=Basket):
     category = ADMIN_CATEGORY
 
 
-class BasketLineAdmin(ModelView):
+class BasketLineAdmin(ModelView, model=BasketLine):
     column_list = [
         BasketLine.id,
         BasketLine.product_id,

@@ -15,15 +15,15 @@ class OrderAdmin(ModelView, model=Order):
     category = ADMIN_CATEGORY
 
 
-class OrderLineAdmin(ModelView):
+class OrderLineAdmin(ModelView, model=OrderLine):
     column_list = [
         OrderLine.id,
         OrderLine.product_id,
-        OrderLine.Order_id,
         OrderLine.quantity,
         OrderLine.price,
     ]
-    column_searchable_list = [OrderLine.id, OrderLine.product_id, OrderLine.Order_id]
+    column_searchable_list = [OrderLine.id, OrderLine.product_id,
+                              OrderLine.order_id]
     icon = "fa-solid fa-list-check"
     category = ADMIN_CATEGORY
 
