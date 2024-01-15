@@ -12,7 +12,7 @@ from sqlmodel import (
 
 
 class Product(SQLModel, table=True):
-    __tablename__ = 'products'
+    __tablename__ = "products"
 
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str
@@ -24,10 +24,16 @@ class Product(SQLModel, table=True):
     images: List["ProductImage"] = Relationship(back_populates="product")
     stock_records: List["StockRecord"] = Relationship(back_populates="product")
     discounts: List["ProductDiscount"] = Relationship(back_populates="product")
+    additional_products: List["AdditionalProducts"] = Relationship(
+        back_populates="product"
+    )
+    recommended_products: List["RecommendedProducts"] = Relationship(
+        back_populates="product"
+    )
 
 
 class ProductCategory(SQLModel, table=True):
-    __tablename__ = 'product_categories'
+    __tablename__ = "product_categories"
 
     id: Optional[int] = Field(default=None, primary_key=True)
     product_id: int = Field(foreign_key="products.id")
@@ -38,7 +44,7 @@ class ProductCategory(SQLModel, table=True):
 
 
 class Category(SQLModel, table=True):
-    __tablename__ = 'categories'
+    __tablename__ = "categories"
 
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str
@@ -56,7 +62,7 @@ class Category(SQLModel, table=True):
 
 
 class ProductImage(SQLModel, table=True):
-    __tablename__ = 'product_images'
+    __tablename__ = "product_images"
 
     id: Optional[int] = Field(default=None, primary_key=True)
     product_id: int = Field(foreign_key="products.id")
@@ -68,7 +74,7 @@ class ProductImage(SQLModel, table=True):
 
 
 class StockRecord(SQLModel, table=True):
-    __tablename__ = 'stock_records'
+    __tablename__ = "stock_records"
 
     id: Optional[int] = Field(default=None, primary_key=True)
     product_id: int = Field(foreign_key="products.id")
@@ -81,7 +87,7 @@ class StockRecord(SQLModel, table=True):
 
 
 class ProductDiscount(SQLModel, table=True):
-    __tablename__ = 'product_discounts'
+    __tablename__ = "product_discounts"
 
     id: Optional[int] = Field(default=None, primary_key=True)
     product_id: int = Field(foreign_key="products.id")
@@ -91,3 +97,21 @@ class ProductDiscount(SQLModel, table=True):
     valid_to: datetime
 
     product: Product = Relationship(back_populates="discounts")
+
+
+class AdditionalProducts(SQLModel, table=True):
+    __tablename__ = "additional_products"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    additional_id: int = Field(foreign_key="products.id")
+
+    product: Product = Relationship(back_populates="additional_products")
+
+
+class RecommendedProducts(SQLModel, table=True):
+    __tablename__ = "recommended_products"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    additional_id: int = Field(foreign_key="products.id")
+
+    product: Product = Relationship(back_populates="recommended_products")
