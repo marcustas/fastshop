@@ -14,7 +14,7 @@ from src.common.databases.postgres import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)  # noqa: A003
     email = Column(String, unique=True, index=True)
@@ -29,17 +29,17 @@ class User(Base):
     last_login = Column(DateTime, nullable=True)
     is_temporary = Column(Boolean, default=False)
 
-    addresses = relationship('UserAddress', back_populates='user')
+    addresses = relationship("UserAddress", back_populates="user")
 
     def __str__(self):
         return self.email
 
 
 class UserAddress(Base):
-    __tablename__ = 'user_addresses'
+    __tablename__ = "user_addresses"
 
     id = Column(Integer, primary_key=True, index=True)  # noqa: A003
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     title = Column(String, nullable=True)
     city = Column(String)
     street = Column(String)
@@ -49,4 +49,4 @@ class UserAddress(Base):
     floor = Column(String, nullable=True)
     additional_info = Column(String, nullable=True)
 
-    user = relationship('User', back_populates='addresses')
+    user = relationship("User", back_populates="addresses")
