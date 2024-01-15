@@ -7,3 +7,7 @@ class UserManagementRoutesPrefixes:
 
 class UserRoutesPrefixes(BaseCrudPrefixes):
     ...
+
+
+class UserAddressRoutesPrefixes(BaseCrudPrefixes):
+    ...
