@@ -2,12 +2,12 @@ from datetime import datetime
 from typing import Annotated
 
 from fastapi import Depends
+
 from src.analytics.models.mongo import (
     ProductAnalytics,
 
 )
-from src.analytics.repositories import ProductAnalyticsRepository
-
+from src.analytics.repository import ProductAnalyticsRepository
 from src.common.service import BaseService
 
 
@@ -19,7 +19,7 @@ class ProductAnalyticsService(BaseService):
     ):
         super().__init__(repository=repository)
 
-    async def record_visit(product_id: int):
+    async def record_visit(self, product_id: int):
         analytics_data = ProductAnalytics(product_id=product_id,
                                           timestamp=datetime.utcnow())
         document = await ProductAnalytics.insert_one(analytics_data)
